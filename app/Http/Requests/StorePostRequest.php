@@ -27,8 +27,8 @@ class StorePostRequest extends FormRequest
             'title'=>['required'],
             'description'=>['required'],
             'image_path'=>['required'],
-            'likes'=>['required'],
-            'comments'=>['required'],
+            'likes'=>['required', 'numeric'],
+            'comments'=>['required', 'numeric'],
             'date'=>['required'],
             'user_id'=>['required'],
         ];
@@ -39,6 +39,7 @@ class StorePostRequest extends FormRequest
         return [ //No se estan desplegando estos mensajes, preguntar al Diego porque
             'title.required' => 'El campo título es obligatorio.',
             'description.required' => 'El campo descripción es obligatorio.',
+            'image_path.required' => 'El campo imagen es obligatorio.',
         ];
     }
 

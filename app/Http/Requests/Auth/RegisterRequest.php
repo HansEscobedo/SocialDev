@@ -24,11 +24,11 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [ //falta realizar las validaciones especificadas en la ERS
-            'name' => ['required', 'min:5'],
+            'name' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required'],
-            'last_name' => ['required'],
-            'user_name' => ['required']
+            'password' => ['required', 'alpha_num', 'min:8', 'max:15', 'regex:/^(?=.*[A-Za-zñÑ])(?=.*\d)[A-Za-zñÑ\d]+$/'],
+            'last_name' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
+            'user_name' => ['required', 'min:2', 'max:12', 'unique:users', 'alpha_num'],
         ];
     }
 
@@ -36,6 +36,22 @@ class RegisterRequest extends FormRequest
     {
         return [ //tampoco se esta desplegando
             'name.required' => 'El campo nombre es obligatorio.',
+            'name.regex' => 'El nombre solo puede contener letras.',
+            'email.required' => 'El campo email es obligatorio.',
+            'email.email' => 'El email debe ser válido.',
+            'email.unique' => 'El email ya se encuentra registrado.',
+            'password.required' => 'El campo contraseña es obligatorio.',
+            'password.alpha_num' => 'La contraseña solo puede contener letras y números.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.max' => 'La contraseña debe tener máximo 15 caracteres.',
+            'password.regex' => 'La contraseña debe contener al menos una letra y un número.',
+            'last_name.required' => 'El campo apellido es obligatorio.',
+            'last_name.regex' => 'El apellido solo puede contener letras.',
+            'user_name.required' => 'El campo nombre de usuario es obligatorio.',
+            'user_name.min' => 'El nombre de usuario debe tener al menos 2 caracteres.',
+            'user_name.max' => 'El nombre de usuario debe tener máximo 12 caracteres.',
+            'user_name.unique' => 'El nombre de usuario ya se encuentra registrado.',
+            'user_name.alpha_num' => 'El nombre de usuario solo puede contener letras y números.'
         ];
     }
 

@@ -11,4 +11,9 @@ class Programming_languages extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'User_Programming_languages');
+    }
 }
