@@ -25,14 +25,14 @@ class RegisterRequest extends FormRequest
     {
         return [ //falta realizar las validaciones especificadas en la ERS
             'name' => ['required', 'min:5'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users'],
             'password' => ['required'],
             'last_name' => ['required'],
             'user_name' => ['required']
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [ //tampoco se esta desplegando
             'name.required' => 'El campo nombre es obligatorio.',

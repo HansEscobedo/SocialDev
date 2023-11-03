@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StorePostRequest extends FormRequest
 {
@@ -30,5 +32,20 @@ class StorePostRequest extends FormRequest
             'date'=>['required'],
             'user_id'=>['required'],
         ];
+    }
+
+    public function messages()
+    {
+        return [ //No se estan desplegando estos mensajes, preguntar al Diego porque
+            'title.required' => 'El campo título es obligatorio.',
+            'description.required' => 'El campo descripción es obligatorio.',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

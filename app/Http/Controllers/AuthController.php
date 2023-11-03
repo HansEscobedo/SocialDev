@@ -44,7 +44,7 @@ class AuthController extends Controller
             {
                 return response()->json([
                     'message' => 'las credenciales ingresadas son incorrectas.'
-                ]);
+                ], 400);
             }
         } catch (JTWException $e){
             return response()->json([

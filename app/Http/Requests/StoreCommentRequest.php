@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreCommentRequest extends FormRequest
 {
@@ -27,5 +29,19 @@ class StoreCommentRequest extends FormRequest
             'user_id'=>['required'],
             'post_id'=>['required'],
         ];
+    }
+
+    public function messages()
+    {
+        return [ //No se estan desplegando estos mensajes, preguntar al Diego porque
+            'text.required' => 'El campo texto es obligatorio.',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

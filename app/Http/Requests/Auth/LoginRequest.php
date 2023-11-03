@@ -30,7 +30,7 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [ //No se estan desplegando estos mensajes, preguntar al Diego porque
             'email.required' => 'El campo email es obligatorio.',

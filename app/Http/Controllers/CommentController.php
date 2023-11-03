@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 
@@ -13,7 +14,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -21,7 +22,21 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $token = $request->header('Authorization');
+
+        $user = JWTAuth::toUser($token);
+
+
+        $comment = Comment::create([
+            'text' => $request->text,
+            'date' => $request->date,
+            'user_id' => $user->id,
+            'post_id' => $request->post_id,
+        ]);
+
+        return response()->json([
+            'comment' => $comment,
+        ], 200);
     }
 
     /**
