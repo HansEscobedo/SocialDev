@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -50,13 +51,40 @@ class AuthController extends Controller
             $token = $tokenCheck;
 
             $user = auth()->user();
-        } catch (JTWException $e){
+        } catch (JWTException $e){
             return response()->json([
                 'error' => 'token no creado'
             ], 500);
         }
 
         return response()->json(compact('token'));
+    }
+
+    public function verifyToken()
+    {
+        try {
+            $token = JWTAuth::getToken();
+
+            if(!$token) {
+                return response()->json([
+                    'error', 'Token no proporcionado.'
+                ], 400);
+            }
+
+            // Verificar si el token es valido
+            $user = JWTAuth::parseToken()->authenticate();
+
+            // si el token es válido retornamos una respuesta exitosa
+            return response()->json([
+                'message' => 'Token válido',
+                'user' => $user
+            ]);
+
+
+        } catch (JWTException $e) {
+            // Manejo de excepciones
+            return response()->json(['error' => 'Token inválido'], 401);
+        }
     }
 
     /**

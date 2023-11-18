@@ -23,11 +23,11 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [ //falta realizar las validaciones especificadas en la ERS
+        return [
             'name' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'email' => ['required', 'email', 'unique:users'],
             'birth_date' => ['required', 'date', 'before:today'],
-            'password' => ['required', 'alpha_num', 'min:8', 'max:15', 'regex:/^(?=.*[A-Za-zñÑ])(?=.*\d)[A-Za-zñÑ\d]+$/'],
+            'password' => ['required', 'alpha_num', 'min:8', 'max:15', 'regex:/^(?=.*[A-Za-zñÑ])(?=.*\d)[A-Za-zñÑ\d,._*+-@!¡¿?&%#|°$]+$/'],
             'last_name' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'user_name' => ['required', 'min:2', 'max:12', 'unique:users', 'alpha_num'],
         ];
@@ -35,7 +35,7 @@ class RegisterRequest extends FormRequest
 
     public function messages()
     {
-        return [ //tampoco se esta desplegando
+        return [
             'name.required' => 'El campo nombre es obligatorio.',
             'name.regex' => 'El nombre solo puede contener letras.',
             'email.required' => 'El campo email es obligatorio.',
