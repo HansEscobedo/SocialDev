@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -39,6 +40,26 @@ class PostController extends Controller
         return response()->json([
             'post' => $post,
         ], 200);
+    }
+
+    public function getPosts(Request $request)
+    {
+        try {
+            $token = $request->header('Authorization');
+            $user = JWTAuth::toUser($token);
+
+            // Verifica si se ha encontrado un usuario
+            if ($user) {
+                $posts = Post::all(); // Obtener todos los posts si el usuario tiene un token válido
+            } else {
+                $posts = Post::where('public', true)->get(); // Obtener posts públicos si no hay token válido
+            }
+
+            return response()->json(['posts' => $posts]);
+        } catch (\Exception $e) {
+            // Manejar errores si hay problemas con la autenticación JWT
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
 
     /**
