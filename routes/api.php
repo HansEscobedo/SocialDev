@@ -31,6 +31,8 @@ Route::middleware('jwt.verify')->group(function (){
     Route::post('post', [PostController::class, 'store']);
     Route::post('comment', [CommentController::class, 'store']);
     Route::get('/usuarios/{id}', [UserController::class, 'getUser']);
+    Route::get('/posts/{id}', [PostController::class, 'getPost']);
+    Route::get('/comments/{id}', [CommentController::class, 'getComments']);
 });
 
 

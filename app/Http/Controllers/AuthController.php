@@ -16,6 +16,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
 
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -27,13 +28,36 @@ class AuthController extends Controller
             'role' => $request->role,
             'publications' => $request->publications
         ]);
-
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'user' => $user,
             'token' => $token,
         ]);
+        /*$userID = $user->id;
+        $areaSkills = $request->area_skills_id;
+        $softSkills = $request->soft_skills_id;
+        $programmingLanguages = $request->programming_languages_id;
+
+        foreach ($areaSkills as $areaSkill) {
+            DB::table('user_area_skills')->insert([
+                'user_id' => $userID,
+                'area_skills_id' => $areaSkill
+            ]);
+        }
+        foreach ($softSkills as $softSkill) {
+            DB::table('user_soft_skills')->insert([
+                'user_id' => $userID,
+                'soft_skills_id' => $softSkill
+            ]);
+        }
+        foreach ($programmingLanguages as $programmingLanguage) {
+            DB::table('user_programming_languages')->insert([
+                'user_id' => $userID,
+                'programming_languages_id' => $programmingLanguage
+            ]);
+        }*/
+
     }
 
     public function login(LoginRequest $request)

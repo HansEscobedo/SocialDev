@@ -50,9 +50,11 @@ class PostController extends Controller
 
             // Verifica si se ha encontrado un usuario
             if ($user) {
-                $posts = Post::all(); // Obtener todos los posts si el usuario tiene un token válido
+                // Si es un usuario autenticado, obtener publicaciones aleatorias
+                $posts = Post::inRandomOrder()->get();
             } else {
-                $posts = Post::where('public', true)->get(); // Obtener posts públicos si no hay token válido
+                // Si es un invitado, obtener publicaciones ordenadas por likes y comentarios en orden ascendente
+                $posts = Post::orderBy('likes', 'asc')->orderBy('comments', 'asc')->get();
             }
 
             return response()->json(['posts' => $posts]);

@@ -39,6 +39,14 @@ class CommentController extends Controller
         ], 200);
     }
 
+    public function getComments(string $id)
+    {
+        $comments = Comment::where('post_id', $id)->get();
+        return response()->json(
+            $comments, 200
+        );
+    }
+
     /**
      * Display the specified resource.
      */
