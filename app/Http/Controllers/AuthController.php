@@ -81,7 +81,10 @@ class AuthController extends Controller
             ], 500);
         }
 
-        return response()->json(compact('token'));
+        return response()->json([
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 
     public function verifyToken()
@@ -98,15 +101,31 @@ class AuthController extends Controller
             // Verificar si el token es valido
             $user = JWTAuth::parseToken()->authenticate();
 
+            $validateToken = JWTAuth::fromUser($user);
             // si el token es válido retornamos una respuesta exitosa
             return response()->json([
                 'message' => 'Token válido',
-                'user' => $user
-            ]);
+                'user' => $user,
+                'token' => $validateToken
+            ],200);
 
 
         } catch (JWTException $e) {
             // Manejo de excepciones
+            if($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+                // Se intenta refrescar el token
+                try {
+                    $refreshedToken = JWTAuth::refresh($token);
+                    return response()->json([
+                        'message' => 'Token refrescado',
+                        'token' => $refreshedToken
+                    ],200);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'error' => 'No se pudo refresar el token'
+                    ], 401);
+                }   
+            }
             return response()->json(['error' => 'Token inválido'], 401);
         }
     }

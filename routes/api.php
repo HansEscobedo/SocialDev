@@ -33,6 +33,7 @@ Route::middleware('jwt.verify')->group(function (){
     Route::get('/usuarios/{id}', [UserController::class, 'getUser']);
     Route::get('/posts/{id}', [PostController::class, 'getPost']);
     Route::get('/comments/{id}', [CommentController::class, 'getComments']);
+    Route::get('token/validate', [AuthController::class, 'verifyToken']);
 });
 
 
