@@ -160,9 +160,23 @@ class AuthController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $user = User::find($id);
+        if($user){
+            $user->update([
+                'name' => $request->name,
+                'last_name' => $request->last_name,
+                'password' => $request->password,
+            ]);
+            return response()->json([
+                'message' => 'Usuario actualizado',
+                'user' => $user
+            ], 200);
+        }
+        return response()->json([
+            'message' => 'Usuario no encontrado'
+        ], 404);
     }
 
     /**

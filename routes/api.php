@@ -36,6 +36,7 @@ Route::middleware('jwt.verify')->group(function (){
     Route::get('/comments/{id}', [CommentController::class, 'getComments']);
     Route::get('token/validate', [AuthController::class, 'verifyToken']);
     Route::post('/upload', [ImagesController::class, 'uploadImage']);
+    Route::post('/updateUser', [UserController::class, 'update']);
 });
 
 
