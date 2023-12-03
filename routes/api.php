@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ImagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::middleware('jwt.verify')->group(function (){
     Route::get('/posts/{id}', [PostController::class, 'getPost']);
     Route::get('/comments/{id}', [CommentController::class, 'getComments']);
     Route::get('token/validate', [AuthController::class, 'verifyToken']);
+    Route::post('/upload', [ImagesController::class, 'uploadImage']);
 });
 
 

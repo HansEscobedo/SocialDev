@@ -28,35 +28,38 @@ class AuthController extends Controller
             'role' => $request->role,
             'publications' => $request->publications
         ]);
+        $userID = $user->id;
+        $areaSkills = $request->input('area_skills_id');
+        $softSkills = $request->input('soft_skills_id');
+        $programmingLanguages = $request->input('programming_languages_id');
+
+        foreach ($areaSkills as $areaSkill) {
+            DB::table('user__area_skills')->insert([
+                'user_id' => $userID,
+                'area_skills_id' => $areaSkill
+            ]);
+        }
+        foreach ($softSkills as $softSkill) {
+            DB::table('user__soft_skills')->insert([
+                'user_id' => $userID,
+                'soft_skills_id' => $softSkill
+            ]);
+        }
+        foreach ($programmingLanguages as $programmingLanguage) {
+            DB::table('user__programming_languages')->insert([
+                'user_id' => $userID,
+                'programming_languages_id' => $programmingLanguage
+            ]);
+        }
+
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'user' => $user,
             'token' => $token,
         ]);
-        /*$userID = $user->id;
-        $areaSkills = $request->area_skills_id;
-        $softSkills = $request->soft_skills_id;
-        $programmingLanguages = $request->programming_languages_id;
 
-        foreach ($areaSkills as $areaSkill) {
-            DB::table('user_area_skills')->insert([
-                'user_id' => $userID,
-                'area_skills_id' => $areaSkill
-            ]);
-        }
-        foreach ($softSkills as $softSkill) {
-            DB::table('user_soft_skills')->insert([
-                'user_id' => $userID,
-                'soft_skills_id' => $softSkill
-            ]);
-        }
-        foreach ($programmingLanguages as $programmingLanguage) {
-            DB::table('user_programming_languages')->insert([
-                'user_id' => $userID,
-                'programming_languages_id' => $programmingLanguage
-            ]);
-        }*/
+
 
     }
 
@@ -124,7 +127,7 @@ class AuthController extends Controller
                     return response()->json([
                         'error' => 'No se pudo refresar el token'
                     ], 401);
-                }   
+                }
             }
             return response()->json(['error' => 'Token inválido'], 401);
         }
