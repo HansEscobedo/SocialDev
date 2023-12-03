@@ -29,7 +29,6 @@ class StorePostRequest extends FormRequest
             'image_path'=>['required'],
             'likes'=>['required', 'numeric'],
             'comments'=>['required', 'numeric'],
-            'date'=>['required'],
             'user_id'=>['required'],
         ];
     }

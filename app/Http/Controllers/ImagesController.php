@@ -19,8 +19,8 @@ class ImagesController extends Controller
         $image = new images();
         $file = $request->file('image');
         $filename = uniqid() . "_" . $file->getClientOriginalName();
-        $file->move(public_path('public/images'), $filename);
-        $url = URL::to('/') . '/public/images/' . $filename;
+        $file->move(public_path('images'), $filename);
+        $url = URL::to('/') . '/images/' . $filename;
         $image['url'] = $url;
         $image->save();
         return response()->json(['isSuccess' => true, 'url' => $url]);
