@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -161,7 +162,7 @@ class AuthController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateUserRequest $request, int $id)
     {
         $user = User::find($id);
         if($user){
