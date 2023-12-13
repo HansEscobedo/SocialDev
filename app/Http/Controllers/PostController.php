@@ -42,26 +42,18 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function getPosts(Request $request)
+    public function getPosts()
     {
-        try {
-            $token = $request->header('Authorization');
-            $user = JWTAuth::toUser($token);
+        //Obtiene los posts en orden aleatorio
+        $posts = Post::inRandomOrder()->get();
+        return response()->json($posts, 200);
+    }
 
-            // Verifica si se ha encontrado un usuario
-            if ($user) {
-                // Si es un usuario autenticado, obtener publicaciones aleatorias
-                $posts = Post::inRandomOrder()->get();
-            } else {
-                // Si es un invitado, obtener publicaciones ordenadas por likes y comentarios en orden ascendente
-                $posts = Post::orderBy('likes', 'asc')->orderBy('comments', 'asc')->get();
-            }
-
-            return response()->json(['posts' => $posts]);
-        } catch (\Exception $e) {
-            // Manejar errores si hay problemas con la autenticación JWT
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+    public function getPostsInvitado()
+    {
+        //Obtiene los posts ordenados por likes y comentarios
+        $posts = Post::orderBy('likes', 'desc')->orderBy('comments', 'desc')->get();
+        return response()->json($posts, 200);
     }
 
     /**

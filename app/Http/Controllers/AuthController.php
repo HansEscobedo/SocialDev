@@ -79,6 +79,9 @@ class AuthController extends Controller
             $token = $tokenCheck;
 
             $user = auth()->user();
+            $user->area_skills;
+            $user->soft_skills;
+            $user->programming_languages;
         } catch (JWTException $e){
             return response()->json([
                 'error' => 'token no creado'
@@ -106,6 +109,9 @@ class AuthController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
 
             $validateToken = JWTAuth::fromUser($user);
+            $user->area_skills;
+            $user->soft_skills;
+            $user->programming_languages;
             // si el token es válido retornamos una respuesta exitosa
             return response()->json([
                 'message' => 'Token válido',

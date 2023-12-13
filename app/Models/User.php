@@ -71,16 +71,16 @@ class User extends Authenticatable implements JWTSubject
 
     public function area_skills()
     {
-        return $this->belongsToMany(Area_skills::class, 'user__area_skills');
+        return $this->belongsToMany(Area_skills::class, 'User__Area_skills');
     }
 
     public function soft_skills()
     {
-        return $this->belongsToMany(Soft_skills::class, 'user__soft_skills');
+        return $this->belongsToMany(Soft_skills::class, 'User__Soft_skills');
     }
 
     public function programming_languages()
     {
-        return $this->belongsToMany(Programming_languages::class, 'user__programming_languages');
+        return $this->belongsToMany(Programming_languages::class, 'User__Programming_languages');
     }
 }
