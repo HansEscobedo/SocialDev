@@ -22,6 +22,9 @@ class UserController extends Controller
     public function getUser(string $id)
     {
         $user = User::find($id);
+        $user->area_skills;
+        $user->soft_skills;
+        $user->programming_languages;
 
         if (!$user) {
             return response()->json(['error' => 'Usuario no encontrado'], 404);

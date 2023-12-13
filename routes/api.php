@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::get('posts', [PostController::class, 'getPosts']);
+Route::get('posts/invitado', [PostController::class, 'getPostsInvitado']);
 
 Route::middleware('jwt.verify')->group(function (){
     Route::get('users', [UserController::class, 'index']);
@@ -33,9 +33,11 @@ Route::middleware('jwt.verify')->group(function (){
     Route::post('comment', [CommentController::class, 'store']);
     Route::get('/usuarios/{id}', [UserController::class, 'getUser']);
     Route::get('/posts/{id}', [PostController::class, 'getPost']);
+    Route::get('posts', [PostController::class, 'getPosts']);
     Route::get('/comments/{id}', [CommentController::class, 'getComments']);
     Route::get('token/validate', [AuthController::class, 'verifyToken']);
     Route::post('/upload', [ImagesController::class, 'uploadImage']);
+    Route::post('/updateUser/{id}', [AuthController::class, 'update']);
 });
 
 
